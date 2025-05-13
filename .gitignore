@@ -1,0 +1,64 @@
+# Environnement Python
+venv/
+.env
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Fichiers d’IDEs
+.vscode/
+.idea/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers logs et caches
+*.log
+*.swp
+*.swo
+*.bak
+
+# Configuration Odoo
+*.conf
+*.dat
+*.db
+*.dump
+
+# egg et setup
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Modules téléchargés ou générés
+*.zip
+*.tar.gz
+
+# Déploiement
+*.pid
+
+# Tests
+coverage.xml
+*.cover
+htmlcov/
+.tox/
+
+# fichiers générés par Odoo
+*.pot
+*.mo
+
+# fichiers spécifiques aux modules
+*.~*
+
+# __manifest__.py compilés
+*.manifest.pyc
+
+# base de données dump
+*.sql
+*.sql.gz
+*.sqlite3
+
+# sauvegardes
+*~
