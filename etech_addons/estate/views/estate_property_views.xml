@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="estate_property_action" model="ir.actions.act_window">
+    <field name="name">properties</field>
+    <field name="res_model">estate.property</field>
+    <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_open_url" model="ir.actions.act_url">
+    <field name="name">mon profil github</field>
+    <field name="type">ir.actions.act_url</field>
+    <field name="url">https://github.com/BAGATHE</field>
+    <field name="target">new</field>
+    </record>
+</odoo>
