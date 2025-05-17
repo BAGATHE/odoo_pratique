@@ -1,5 +1,5 @@
 from odoo import fields, models,api,_
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError,UserError
 from datetime import date
 from dateutil.relativedelta import relativedelta
 
@@ -55,4 +55,14 @@ class EstateProperty(models.Model):
         else:
             self.garden_area = 0
             self.garden_orientation = None
+
+    def sold_estate_property(self):
+        for record in self:
+            if record.state == 'cancelled':
+                raise UserError("offre est deja annulé")
+            record.state = 'sold'
+
+    def cancel_estate_property(self):
+        for record in self:
+            record.state = 'cancelled'
 
