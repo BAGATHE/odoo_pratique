@@ -1,4 +1,5 @@
-from odoo import fields, models
+from odoo import fields, models,api,_
+from odoo.exceptions import ValidationError
 from datetime import date
 from dateutil.relativedelta import relativedelta
 
@@ -27,3 +28,31 @@ class EstateProperty(models.Model):
     partner_id = fields.Many2one("res.partner", string="Buyer",copy=False)
     tag_ids = fields.Many2many('estate.property.tag', string='Tag')
     offer_ids = fields.One2many('estate.property.offer',  'property_id',string='Offers')
+    total_area = fields.Integer(string='Total Area',compute="_compute_total_area",store=False)
+    best_price = fields.Float('Best Price',compute='_compute_best_price',store=False,readonly=True)
+
+    @api.constrains('living_area','garden_area')
+    def _check_is_positive_area(self):
+        for rec in self:
+            if rec.living_area < 0 or rec.garden_area < 0:
+                raise ValidationError('Area must be positive')
+    @api.depends('living_area','garden_area')
+    def _compute_total_area(self):
+        for record in self:
+            record.total_area = (record.living_area or 0) + (record.garden_area or 0)
+
+    @api.depends('offer_ids')
+    def _compute_best_price(self):
+        for record in self:
+            offers_price = record.offer_ids.mapped('price')
+            record.best_price = max(offers_price) if offers_price else 0
+
+    @api.onchange('garden')
+    def _onchange_garden(self):
+        if self.garden:
+            self.garden_area = 10
+            self.garden_orientation = 'north'
+        else:
+            self.garden_area = 0
+            self.garden_orientation = None
+
