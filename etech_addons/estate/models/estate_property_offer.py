@@ -13,6 +13,9 @@ class EstatePropertyOffer(models.Model):
     property_id = fields.Many2one('estate.property', string="Property",required=True)
     validity = fields.Integer('Validity (Days)',default=7)
     date_deadline = fields.Date(compute="_compute_date_deadline", inverse="_inverse_date_deadline", store=True)
+    _sql_constraints = [
+        ('check_price','CHECK(price > 0)','le prix doit etre superieur a 0')
+    ]
 
     @api.depends('create_date','validity')
     def _compute_date_deadline(self):
