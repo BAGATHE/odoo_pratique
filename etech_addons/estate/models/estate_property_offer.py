@@ -1,5 +1,6 @@
 from odoo import fields, models,api
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import UserError
 
 
 class EstatePropertyOffer(models.Model):
@@ -20,9 +21,33 @@ class EstatePropertyOffer(models.Model):
                 record.date_deadline = record.create_date + relativedelta(days=record.validity)
             else:
                 record.date_deadline=False
+
+    @api.depends('create_date', 'date_deadline')
     def _inverse_date_deadline(self):
         for record in self:
             if record.create_date and record.date_deadline:
                 delta = record.date_deadline - record.create_date.date()
                 record.validity = delta.days
+
+    def action_confirm_offer(self):
+        self.ensure_one()
+        if self.state == 'rejected':
+            raise UserError("offre rejeté ne peut plus etre accepté")
+        else:
+            self.state = 'accepted'
+            other_offers = self.search([
+                ('property_id', '=', self.property_id.id),
+                ('id', '!=', self.id),
+                ('state', '!=', 'rejected')
+            ])
+            other_offers.write({'state': 'rejected'})
+            self.property_id.selling_price = self.price
+            self.property_id.partner_id = self.partner_id.id
+
+    def action_decline_offer(self):
+        self.ensure_one()
+        self.state = 'rejected'
+
+
+
 
