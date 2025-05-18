@@ -6,7 +6,10 @@
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
             <list string="Channel">
-                <field name="name"/>
+                <field name="name"
+                   decoration-success="state == 'offer received' or state == 'offer accepted'"
+                   decoration-bf="state == 'offer accepted'"
+                   decoration-muted="state == 'sold'"/>
                 <field name="postcode"/>
                 <field name="bedrooms"/>
                 <field name="living_area"/>
@@ -24,7 +27,8 @@
             <form string="Estate Property">
                 <header>
                     <button name="sold_estate_property" type="object" string="SOLD"/>
-                     <button name="cancel_estate_property" type="object" string="CANCEL"/>
+                    <button name="cancel_estate_property" type="object" string="CANCEL"/>
+                    <field name="state" widget="statusbar"/>
                 </header>
 
                 <sheet>
@@ -32,16 +36,16 @@
                         <h1>
                             <field name="name"/>
                         </h1>
+
                     </div>
 
-                    <field name="tag_ids" widget="many2many_tags"/>
+                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
 
                     <group>
                         <group>
                             <field name="name"/>
                             <field name="postcode"/>
-                            <field name="state" widget="statusbar"/>
-                            <field name="date_availability"/>
+                            <field name="date_availability" optional="hide"/>
                         </group>
                         <group>
                             <field name="expected_price"/>
@@ -59,23 +63,22 @@
                                 <field name="facades"/>
                                 <field name="garage"/>
                                 <field name="garden"/>
-                                <field name="garden_area"/>
-                                <field name="garden_orientation"/>
-                                <field name="property_type_id"/>
+                                <field name="garden_area" invisible="not garden"/>
+                                <field name="garden_orientation" invisible="not garden"/>
+                                <field name="property_type_id" options="{'no_create': True, 'no_create_edit': True}"/>
                                 <field name="total_area" />
-                                <field name="tag_ids" widget="many2many_tags"/>
                             </group>
                         </page>
                          <page string="Offers">
                             <group>
-                                <field name="offer_ids">
-                                    <list>
+                                <field name="offer_ids" readonly="state in ['offer accepted','sold','cancelled'] ">
+                                    <list default_order="price desc">
                                         <field name="price" />
                                         <field name="partner_id"/>
                                         <field name="validity" />
                                         <field name="date_deadline"/>
-                                        <button name="action_confirm_offer" type="object" string="confirm" icon="fa-check"/>
-                                        <button name="action_decline_offer" type="object" string="decline" icon="fa-times"/>
+                                        <button name="action_confirm_offer" type="object" string="confirm" icon="fa-check"  invisible="state  in ['accepted', 'rejected']" />
+                                        <button name="action_decline_offer" type="object" string="decline" icon="fa-times"  invisible="state  in ['accepted', 'rejected']"/>
                                         <field name="state" />
                                     </list>
                                 </field>
@@ -106,6 +109,8 @@
                 <field name="living_area"/>
                 <field name="facades"/>
                 <separator/>
+                <filter name="living_area" string="Living > 15" domain="[('living_area', '>', 15)]" help="Show only properties with living area > 15"/>
+                <filter name="available" string="Available" domain="[('name', 'ilike', 'first')]" help="Show only available"/>
                 <filter name="state" domain="['|', ('state','=','new'), ('state','=','offer received')]" context="{'group_by': 'postcode'}"/>
             </search>
         </field>
