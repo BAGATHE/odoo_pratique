@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_medecin" model="ir.actions.act_window">
+        <field name="name">Medecin</field>
+        <field name="res_model">consultation.medecin</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

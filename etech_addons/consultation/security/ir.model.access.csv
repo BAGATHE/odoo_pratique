@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+consultation.access_consultation_client,access_consultation_client,consultation.model_consultation_client,base.group_user,1,1,1,1
+consultation.access_consultation_medecin,access_consultation_medecin,consultation.model_consultation_medecin,base.group_user,1,1,1,1
+consultation.access_consultation_medicament,access_consultation_medicament,consultation.model_consultation_medicament,base.group_user,1,1,1,1
+consultation.access_consultation_consultation_detail,access_consultation_consultation_detail,consultation.model_consultation_consultation_detail,base.group_user,1,1,1,1
+consultation.access_consultation_consultation,access_consultation_consultation,consultation.model_consultation_consultation,base.group_user,1,1,1,1

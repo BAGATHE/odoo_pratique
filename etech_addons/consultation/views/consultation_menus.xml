@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <menuitem id="consultation_menu_root" name="consultation">
+        <menuitem id="medecin_nav" name="Medecin">
+            <menuitem id="menu_medecin" action="action_medecin"/>
+        </menuitem>
+
+        <menuitem id="client_nav" name="Client">
+            <menuitem id="menu_client" action="action_client"/>
+        </menuitem>
+
+        <menuitem id="medicament_nav" name="Medicament">
+            <menuitem id="menu_medicament" action="action_medicament"/>
+        </menuitem>
+
+    </menuitem>
+</odoo>
