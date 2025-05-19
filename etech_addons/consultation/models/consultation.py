@@ -12,5 +12,5 @@ class Consultation(models.Model):
     prix_consultation = fields.Float(string="Prix consultation",required=True)
     prix_total_medicament = fields.Float(string="Prix Total Medicament", required=True)
     status = fields.Selection(string="Status",required=True,default='non faites',selection=[
-        ('non faites','Non faites'),('',''),('','')
+        ('non traiter','Non Traiter'),('en cours','En Cours'),('faite','Faite')
     ])
