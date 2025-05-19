@@ -5,4 +5,18 @@
         <field name="res_model">consultation.medecin</field>
         <field name="view_mode">list,form</field>
     </record>
+
+    <record id="medecin_list" model="ir.ui.view">
+        <field name="name">Medecin List</field>
+        <field name="model">consultation.medecin</field>
+        <field name="arch" type="xml">
+        <list string="Liste des Médecins" decoration-success="active == True" decoration-danger="active == False">
+            <field name="name" string="Nom du Médecin" />
+            <field name="debut_service" string="Date de Début" />
+            <field name="user_id" string="Utilisateur Assigné" />
+            <field name="user_login" string="Login" />
+            <field name="active" string="Actif" widget="boolean_toggle" />
+        </list>
+    </field>
+</record>
 </odoo>
