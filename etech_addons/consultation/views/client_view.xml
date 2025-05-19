@@ -5,4 +5,17 @@
         <field name="res_model">consultation.client</field>
         <field name="view_mode">list,form</field>
     </record>
+    <record id="client_list" model="ir.ui.view">
+        <field name="name">Client List</field>
+        <field name="model">consultation.client</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" string="Nom Client"/>
+                <field name="date_naissance" string="Date de Naissance"/>
+                <field name="sexe" string="Sexe"/>
+                <field name="age" string="Age"/>
+                <field name="partner_phone" string="Telephone"/>
+            </list>
+        </field>
+    </record>
 </odoo>

@@ -9,6 +9,7 @@ class Client(models.Model):
     date_naissance = fields.Date('Date de naissance', required=True)
     sexe = fields.Selection(string="Sexe",selection=[('male','Male'),('female','Female')],required=True)
     partner_id = fields.Many2one('res.partner',string="Client")
+    partner_phone = fields.Char(related="partner_id.phone",string="Phone")
     age = fields.Integer(compute='_compute_age', string="Age",readonly=True)
 
     _sql_constraints = [
