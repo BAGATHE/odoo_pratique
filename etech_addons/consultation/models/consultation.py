@@ -10,3 +10,7 @@ class Consultation(models.Model):
     medecin_id = fields.Many2one('consultation.medecin',string="Médecin",required=True,index=True,default=lambda self: self.env['consultation.medecin'].search([('user_id', '=', self.env.uid)], limit=1))
     consultation_details_ids = fields.One2many( 'consultation.consultation.detail','consultation_id',string="Détails de la consultation")
     prix_consultation = fields.Float(string="Prix consultation",required=True)
+    prix_total_medicament = fields.Float(string="Prix Total Medicament", required=True)
+    status = fields.Selection(string="Status",required=True,default='non faites',selection=[
+        ('non faites','Non faites'),('',''),('','')
+    ])
