@@ -5,4 +5,16 @@
         <field name="res_model">consultation.medicament</field>
         <field name="view_mode">list,form</field>
     </record>
+    <record id="medicament_list" model="ir.ui.view">
+        <field name="name">List Medicament</field>
+        <field name="model">consultation.medicament</field>
+        <field name="arch" type="xml">
+            <list  editable="bottom" decoration-success="active == True" decoration-danger="active == False">
+                <field name="name" string="Designation"/>
+                <field name="dosage" string="Dosage"/>
+                <field name="price" string="price"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
 </odoo>

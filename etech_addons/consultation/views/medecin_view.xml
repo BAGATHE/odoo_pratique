@@ -18,5 +18,5 @@
             <field name="active" string="Actif" widget="boolean_toggle" />
         </list>
     </field>
-</record>
+    </record>
 </odoo>
