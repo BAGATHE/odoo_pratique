@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="consultation" model="ir.ui.view">
+        <field name="name">consultation</field>
+        <field name="model">consultation.consultation</field>
+        <field name="arch" type="xml">
+            <form string="consultation">
+                <group>
+                    <field name="medecin_id" readonly="1"/>
+                    <field name="client_id"/>
+                    <field name="date_debut_consultation"/>
+                    <field name="date_fin_consultation"/>
+                    <field name="prix_consultation"/>
+                    <field name="prix_total_medicament" readonly="1"/>
+                    <field name="status" widget="statusbar"/>
+                </group>
+                <group string="Details  consultation" >
+                    <field name="consultation_details_ids" readonly="status in ['non traiter','faite','annulé']">
+                        <list>
+                            <field name="medicament_id"/>
+                            <field name="quantite"/>
+                            <field name="prix"/>
+                        </list>
+                        <form string="Detail consultation ">
+                            <group>
+                                <field name="medicament_id"/>
+                                <field name="quantite"/>
+                                <field name="prix"/>
+                            </group>
+                        </form>
+                    </field>
+                </group>
+                <group>
+                    <button class="btn-secondary"  name="in_progress_consultation" type="object" string="Marqué en cours" invisible="status in ['en cours','faite']"/>
+                    <button class="btn-success" name="finish_consultation" type="object" string="Marqué faites" invisible="status in ['non traiter','faite']"/>
+                    <button class="btn-danger" name="cancel_consultation" type="object" string="Annulé" readonly="status in ['faite']"/>
+                </group>
+            </form>
+        </field>
+    </record>
+</odoo>
