@@ -1,9 +1,13 @@
+from datetime import datetime,time
+
 from odoo import fields, models,api
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError,ValidationError
 
 class Consultation(models.Model):
     _name = 'consultation.consultation'
     _description = 'Consultation'
+
+    NB_LIMITE_CONSULTATION_JOURNALIERE = 3
 
     date_debut_consultation = fields.Datetime(string="Debut consultation",required=True)
     date_fin_consultation = fields.Datetime(string="fin consultation",required=True)
@@ -15,6 +19,8 @@ class Consultation(models.Model):
     status = fields.Selection(string="Status",default='non traiter',selection=[
         ('non traiter','Non Traiter'),('en cours','En Cours'),('faite','Faite'),('annulé','Annulé')
     ])
+
+
 
     _sql_constraints = [
         ('check_prix_consultation','CHECK(prix_consultation >= 0)','consultation devrais etre positive'),
@@ -56,8 +62,32 @@ class Consultation(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'Details Consultation',
             'res_model': 'consultation.consultation',
-            'view_mode': 'form',
             'res_id': self.id,
             'views': [(self.env.ref('consultation.consultation').id, 'form')],
             'target': 'current',
         }
+
+    @api.constrains('date_debut_consultation')
+    def check_date_disponibilite(self):
+        for consultation in self:
+            date = consultation.date_debut_consultation.date()
+            debut_date = datetime.combine(date, time.min)
+            fin_date = datetime.combine(date, time.max)
+            nb_consultation = self.search_count([
+                ('date_debut_consultation', '>=', debut_date),
+                ('date_debut_consultation', '<=', fin_date),
+                ('id', '!=', consultation.id)
+            ])
+            if nb_consultation >= consultation.NB_LIMITE_CONSULTATION_JOURNALIERE:
+                raise ValidationError(f"cette date {date} est deja plein")
+
+    @api.constrains('date_debut_consultation','date_fin_consultation')
+    def check_crenaux_horaire(self):
+        for consultation in self:
+            non_valide_crenaux = self.search([
+                ('id', '!=', consultation.id),
+                ('date_debut_consultation', '<', consultation.date_fin_consultation),
+                ('date_fin_consultation', '>', consultation.date_debut_consultation),
+            ])
+            if non_valide_crenaux:
+                raise ValidationError(f"ce crenaux horaire n'est pas disponible {consultation.date_debut_consultation}-{consultation.date_fin_consultation}")

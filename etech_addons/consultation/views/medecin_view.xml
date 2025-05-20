@@ -10,7 +10,7 @@
         <field name="name">Medecin List</field>
         <field name="model">consultation.medecin</field>
         <field name="arch" type="xml">
-        <list string="Liste des Médecins" decoration-success="active == True" decoration-danger="active == False">
+        <list string="Liste des Médecins" decoration-success="active == True" decoration-danger="active == False" >
             <field name="name" string="Nom du Médecin" />
             <field name="debut_service" string="Date de Début Service" />
             <field name="user_id" string="Utilisateur Assigné" />
@@ -25,6 +25,13 @@
     <field name="model">consultation.medecin</field>
     <field name="arch" type="xml">
         <form string="Consultation Médecin">
+            <header>
+                <button name="consultation_du_jour" type="object" class="oe_stat_button" icon="fa-calendar-check-o">
+                    <div>
+                        <field   string="Consultations du jour" name="nb_consultation_du_jour" widget="statinfo"/>
+                    </div>
+                </button>
+            </header>
             <sheet>
                 <div class="oe_title">
                     <h1>
@@ -32,21 +39,23 @@
                     </h1>
                 </div>
                 <group>
-                    <field name="debut_service" string="Date de Début Service" />
-                    <field name="user_id" string="Utilisateur Assigné" />
-                    <field name="user_login" string="Email" />
-                    <field name="experience" string="Experience" />
+                    <group>
+                        <field name="debut_service" string="Date de Début Service" />
+                        <field name="user_id" string="Utilisateur Assigné" />
+                        <field name="user_login" string="Email" />
+                        <field name="experience" string="Experience" />
+                    </group>
                 </group>
                 <notebook>
                     <page string="Consultations">
-                        <field name="consultation_ids">
+                        <field name="consultation_ids" invisible="active == False">
                              <list editable="bottom">
                                 <field name="client_id"/>
                                 <field name="date_debut_consultation"/>
                                 <field name="date_fin_consultation"/>
                                 <field name="prix_consultation"/>
                                 <field name="prix_total_medicament"/>
-                                <field name="status" widget="badge" decoration-success="status == 'faite'"/>
+                                <field name="status" widget="badge" decoration-success="status == 'faite'" decoration-danger="status == 'annulé'" decoration-info="status == 'non traiter'" decoration-warning="status == 'en cours'"/>
                                  <button class="btn-primary" name="view_detail" type="object" string="Voir details"/>
                              </list>
                         </field>
