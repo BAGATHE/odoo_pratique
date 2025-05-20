@@ -1,5 +1,35 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <record id="action_consultation" model="ir.actions.act_window">
+        <field name="name">consultation</field>
+        <field name="res_model">consultation.consultation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+     <record id="consultation_list" model="ir.ui.view">
+        <field name="name">consultation</field>
+        <field name="model">consultation.consultation</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="medecin_id"/>
+                <field name="client_id"/>
+                <field name="date_debut_consultation"/>
+                <field name="date_fin_consultation"/>
+                <field name="prix_consultation"/>
+                <field name="prix_total_medicament"/>
+                <field name="status" widget="badge" decoration-success="status == 'faite'" decoration-danger="status == 'annulé'" decoration-info="status == 'non traiter'" decoration-warning="status == 'en cours'"/>
+                <button class="btn-primary" name="view_detail" type="object" string="Voir details"/>
+            </list>
+        </field>
+    </record>
+
+
+
+
+
+
+
+
     <record id="consultation" model="ir.ui.view">
         <field name="name">consultation</field>
         <field name="model">consultation.consultation</field>
@@ -31,9 +61,9 @@
                     </field>
                 </group>
                 <group>
-                    <button class="btn-secondary"  name="in_progress_consultation" type="object" string="Marqué en cours" invisible="status in ['en cours','faite']"/>
-                    <button class="btn-success" name="finish_consultation" type="object" string="Marqué faites" invisible="status in ['non traiter','faite']"/>
-                    <button class="btn-danger" name="cancel_consultation" type="object" string="Annulé" readonly="status in ['faite']"/>
+                    <button class="btn-secondary"  name="in_progress_consultation" type="object" string="Marqué en cours" invisible="status in ['en cours','faite','annulé']"/>
+                    <button class="btn-success" name="finish_consultation" type="object" string="Marqué faites" invisible="status in ['non traiter','faite','annulé']"/>
+                    <button class="btn-danger" name="cancel_consultation" type="object" string="Annulé" invisible="status in ['faite','annulé']"/>
                 </group>
             </form>
         </field>

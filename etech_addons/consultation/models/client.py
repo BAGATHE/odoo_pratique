@@ -13,7 +13,7 @@ class Client(models.Model):
     age = fields.Integer(compute='_compute_age', string="Age",readonly=True)
 
     _sql_constraints = [
-        ('check_client','UNIQUE(partner_id)','le client est rataché a une seule partner')
+        ('check_client','UNIQUE(partner_id)','chaque client ne peut etre rattaché a une seule compte particulier ou entreprise')
     ]
 
 
