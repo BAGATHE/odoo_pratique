@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--atao anaty balise data amzay mi persiste lay config meme apres relancement du server-->
+    <data >
+        <record id="group_consultation_medecin" model="res.groups">
+            <field name="name">Medecin</field>
+        </record>
+
+        <record id="group_consultation_admin" model="res.groups">
+            <field name="name">Administrateur Consultation</field>
+            <field name="implied_ids" eval="[(4, ref('consultation.group_consultation_medecin'))]"/>
+        </record>
+
+    </data>
+</odoo>
