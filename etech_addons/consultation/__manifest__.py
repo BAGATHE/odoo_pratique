@@ -18,6 +18,9 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+         'security/groups.xml',
+         'security/medecin_rules.xml',
+         'security/consultation_rules.xml',
          'views/consultation_view.xml',
          'views/medecin_view.xml',
          'views/client_view.xml' ,
