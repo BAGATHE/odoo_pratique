@@ -22,19 +22,14 @@
             </list>
         </field>
     </record>
-
-
-
-
-
-
-
-
     <record id="consultation" model="ir.ui.view">
         <field name="name">consultation</field>
         <field name="model">consultation.consultation</field>
         <field name="arch" type="xml">
             <form string="consultation">
+                <header>
+                    <field name="status" widget="statusbar"/>
+                </header>
                 <group>
                     <field name="medecin_id" readonly="1"/>
                     <field name="client_id"/>
@@ -42,7 +37,6 @@
                     <field name="date_fin_consultation"/>
                     <field name="prix_consultation"/>
                     <field name="prix_total_medicament" readonly="1"/>
-                    <field name="status" widget="statusbar"/>
                 </group>
                 <group string="Details  consultation" >
                     <field name="consultation_details_ids" readonly="status in ['non traiter','faite','annulé']">
@@ -68,4 +62,23 @@
             </form>
         </field>
     </record>
+
+    <record id="consultation_search_view" model="ir.ui.view">
+    <field name="name">consultation.search</field>
+    <field name="model">consultation.consultation</field>
+    <field name="arch" type="xml">
+        <search string="Recherche Consultation">
+            <field name="medecin_id"/>
+            <field name="client_id"/>
+            <field name="date_debut_consultation"/>
+            <field name="date_fin_consultation"/>
+            <field name="prix_consultation"/>
+            <field name="prix_total_medicament"/>
+            <field name="status"/>
+             <separator/>
+            <filter name="status faite" string="consultation faites" domain="[('status','=','faite')]"/>
+            <filter name="statusnon traiter" string="consultation non traiter" domain="[('status','=','non traiter')]"/>
+        </search>
+    </field>
+</record>
 </odoo>
